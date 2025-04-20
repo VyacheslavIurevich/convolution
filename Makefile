@@ -21,6 +21,8 @@ all: build test
 
 build: $(TARGET)
 
+build_test: $(TEST_TARGET)
+
 test: $(TEST_TARGET)
 	@./$(TEST_TARGET)
 
@@ -41,4 +43,4 @@ $(TEST_TARGET): $(TESTS_DIR)/test_lib.c $(OBJ_DIR)/lib.o | $(BIN_DIR)
 clean:
 	@rm -rf $(BIN_DIR) $(OBJ_DIR)
 
-.PHONY: all build test clean
+.PHONY: all build build_test test clean
