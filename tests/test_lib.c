@@ -1,8 +1,8 @@
-#include "../src/lib.h"
-#include <cmocka.h>
 #include <setjmp.h>
 #include <stdarg.h>
 #include <stddef.h>
+#include <cmocka.h>
+#include "../src/lib.h"
 
 static void test_function_a_returns_5(void **state) {
   (void)state;
