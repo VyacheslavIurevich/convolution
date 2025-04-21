@@ -36,7 +36,7 @@ check_program() {
 failed=0
 
 make clean
-make build build_test
+make build build_tests
 
 tmpfile=$(mktemp)
 find ./bin -type f -executable > "$tmpfile"
