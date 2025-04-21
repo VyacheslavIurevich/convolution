@@ -1,14 +1,12 @@
-#!/bin/sh
-
-set -euo pipefail
+#!/bin/sh -e
 
 LOG_DIR="./valgrind_logs"
 mkdir -p "$LOG_DIR"
 
 check_program() {
-    local prog="$1"
-    local prog_name=$(basename "$prog")
-    local logfile="${LOG_DIR}/valgrind_${prog_name}.log"
+    prog="$1"
+    prog_name=$(basename "$prog")
+    logfile="${LOG_DIR}/valgrind_${prog_name}.log"
 
     echo "Checking $prog for memory leaks..."
 
@@ -35,16 +33,25 @@ check_program() {
     return 0
 }
 
+failed=0
+
+make clean
 make build build_test
 
-find ./bin -type f -executable | while read -r prog; do
-    check_program "$prog" || failed=1
-done
+tmpfile=$(mktemp)
+find ./bin -type f -executable > "$tmpfile"
+
+while read -r prog; do
+    if ! check_program "$prog"; then
+        failed=1
+    fi
+done < "$tmpfile"
+rm -f "$tmpfile"
 
 make clean
 rm -rf "$LOG_DIR"
 
-if [ "${failed-0}" -eq 1 ]; then
+if [ "$failed" -eq 1 ]; then
     echo "Some programs have memory leaks!"
     exit 1
 else

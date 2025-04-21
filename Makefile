@@ -3,7 +3,7 @@
 SHELL = /bin/sh
 
 CC = gcc
-CFLAGS = -Wall -Wextra -pedantic -O2
+CFLAGS = -Wall -Wextra -pedantic -O2 -fprofile-arcs -ftest-coverage -lgcov 
 # get CMocka compiler flags
 CMOCKA_CFLAGS = $(shell pkg-config --cflags cmocka 2>/dev/null || echo "-I/usr/include")
 # get CMocka linker flags
