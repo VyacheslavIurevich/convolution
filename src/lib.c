@@ -1,1 +1,1 @@
-int a() { return 5; }
+int a(void) { return 5; }
