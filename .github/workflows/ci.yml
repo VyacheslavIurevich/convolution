@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check build
+        run: |
+            sudo apt-get update
+            sudo apt-get install -y clang
+            ./scripts/ci/build.sh
+      - name: Run tests & view coverage
+        run: |
+          sudo apt-get install -y libcmocka-dev llvm
+          ./scripts/ci/tests.sh
+      - name: Check for leaks
+        run: |
+          sudo apt-get install -y valgrind
+          ulimit -n 4096
+          ./scripts/ci/check-leaks.sh
+  analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run clang-tidy
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y bear clang clang-tidy libcmocka-dev
+          ./scripts/ci/lint.sh
+      - name: Run clang-format
+        run: |
+          sudo apt-get update
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 20
+          sudo apt-get install -y clang-format-20
+          sudo update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-20 100
+          rm -f llvm.sh
+          ./scripts/ci/format-check.sh
+      - name: Run shellcheck
+        run: |
+          sudo apt-get install shellcheck 
+          ./scripts/ci/shellcheck.sh
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.24'
+      - name: Run checkmake
+        run: |
+          ./scripts/ci/checkmake.sh
