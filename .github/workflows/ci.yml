@@ -45,7 +45,7 @@ jobs:
           sudo apt-get install -y clang-format-20
           sudo update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-20 100
           rm -f llvm.sh
-          ./scripts/ci/format-check.sh
+          ./scripts/ci/check-formatting.sh
       - name: Run shellcheck
         run: |
           sudo apt-get install shellcheck 
