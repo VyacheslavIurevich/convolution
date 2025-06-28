@@ -15,14 +15,14 @@ Functionality description — TODO
 ```
 ├──scripts
 │   ├──ci
-│   │  ├── build.sh // checks the project build
+│   │  ├── build.sh            // checks the project build
 │   │  ├── check-formatting.sh // checks .c and .h files formatting
-│   │  ├── check-leaks.sh // checks for memory leaks and race conditions
-│   │  ├── checkmake.sh // analyzes makefile
-│   │  ├── lint.sh // lints .c and .h files
-│   │  ├── shellcheck.sh // analyzes .sh files
-│   │  ├── tests.sh // runs tests and evaluates coverage
-│   ├── format.sh // formats all .c and .h files according to .clang-format config file
+│   │  ├── check-leaks.sh      // checks for memory leaks and race conditions
+│   │  ├── checkmake.sh        // analyzes makefile
+│   │  ├── lint.sh             // lints .c and .h files
+│   │  ├── shellcheck.sh       // analyzes .sh files
+│   │  ├── tests.sh            // runs tests and evaluates coverage
+│   ├── format.sh              // formats all .c and .h files according to .clang-format config file
 ```
 src and tests description — TODO
 ## How to use <a name="how-to-use"></a>
