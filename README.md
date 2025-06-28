@@ -1,5 +1,6 @@
 # convolution
 ![CI](https://github.com/VyacheslavIurevich/convolution/actions/workflows/ci.yml/badge.svg)
+
 Bitmap image convolution C implementation.
  ## Table of contents
 * [Functionality](#functionality)
