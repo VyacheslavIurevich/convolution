@@ -1,9 +1,9 @@
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Test
 import org.example.Example
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
 
-class ExampleTests() {
+class ExampleTests {
     private val a = Example()
 
     @Test
