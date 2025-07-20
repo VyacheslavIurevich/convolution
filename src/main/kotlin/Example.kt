@@ -1,6 +1,6 @@
 package org.example
 
-class Example() {
+class Example {
     fun main(): Int {
         val name = "Kotlin"
         println("Hello, $name!")
