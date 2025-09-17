@@ -33,9 +33,11 @@ class ConvolutionTests {
         if (inputFiles != null) {
             for (file in inputFiles) {
                 val fileName = file?.getName()?.dropLast(4)
+                //if (fileName == "big") {
+                //    help(filteringInfo, refName, fileName)
+                //}
                 val input = handler.readBMP("src/test/resources/in/$fileName.bmp")
                 val output = solver.convolve(input, filteringInfo)
-                println("src/test/resources/ref_out/$fileName/$refName.bmp")
                 val reference = handler.readBMP("src/test/resources/ref_out/$fileName/$refName.bmp")
                 checkBMPEquality(reference, output)
             }
