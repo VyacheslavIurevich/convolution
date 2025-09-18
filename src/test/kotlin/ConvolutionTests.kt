@@ -1,6 +1,7 @@
 import java.io.File
 import org.example.BMPHandler
 import org.example.ConvolutionSolver
+import org.example.ConvolutionImplementation
 import org.example.FilteringInfo
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -164,14 +165,16 @@ class ConvolutionTests {
 
     private fun filterTest(filterName: String) {
         if (inputFiles != null) {
-            for (file in inputFiles) {
-                val fileName = file?.getName()?.dropLast(4)
-                val input = handler.readBMP("src/test/resources/in/$fileName.bmp")
-                val filteringInfo = filters[filterName]
-                if (filteringInfo != null) {
-                    val output = solver.convolve(input, filteringInfo)
-                    val reference = handler.readBMP("src/test/resources/ref_out/$fileName/$filterName.bmp")
-                    checkBMPEquality(reference, output)
+            for (implementation in ConvolutionImplementation.entries) {
+                for (file in inputFiles) {
+                    val fileName = file?.getName()?.dropLast(4)
+                    val input = handler.readBMP("src/test/resources/in/$fileName.bmp")
+                    val filteringInfo = filters[filterName]
+                    if (filteringInfo != null) {
+                        val output = solver.convolve(input, filteringInfo, implementation)
+                        val reference = handler.readBMP("src/test/resources/ref_out/$fileName/$filterName.bmp")
+                        checkBMPEquality(reference, output)
+                    }
                 }
             }
         }
@@ -179,7 +182,7 @@ class ConvolutionTests {
 
     @Test
     @DisplayName("Convolution with ID filter doesn't change image")
-    fun checkIDFilter() {
+    fun checkIDFilter()  {
         filterTest("id")
     }
 
