@@ -1,9 +1,7 @@
-package org.example
-
 enum class ConvolutionImplementation {
     SEQUENTIAL,
-    BY_ROWS,
-    BY_COLUMNS,
-    BY_PIXELS,
-    BY_TILES
+    PARALLEL_BY_ROWS,
+    PARALLEL_BY_COLS,
+    PARALLEL_BY_PIXELS,
+    PARALLEL_BY_TILES,
 }

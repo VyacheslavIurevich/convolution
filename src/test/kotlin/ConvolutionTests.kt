@@ -1,153 +1,18 @@
-import java.io.File
-import org.example.BMPHandler
-import org.example.ConvolutionSolver
-import org.example.ConvolutionImplementation
-import org.example.FilteringInfo
+import org.bytedeco.opencv.opencv_core.Mat
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import java.io.File
 import kotlin.test.assertEquals
-import org.bytedeco.opencv.opencv_core.Mat
 
 class ConvolutionTests {
     private val solver = ConvolutionSolver()
     private val handler = BMPHandler()
-    private val inputFiles: Array<out File?>? = File("src/test/resources/in").listFiles()
-    private val filters = mapOf(
-        "id" to FilteringInfo(
-            arrayOf(
-                doubleArrayOf(0.0, 0.0, 0.0),
-                doubleArrayOf(0.0, 1.0, 0.0),
-                doubleArrayOf(0.0, 0.0, 0.0)
-            ), 1.0, 0.0
-        ),
-        "blur-3x3" to FilteringInfo(
-            arrayOf(
-                doubleArrayOf(0.0, 0.2, 0.0),
-                doubleArrayOf(0.2, 0.2, 0.2),
-                doubleArrayOf(0.0, 0.2, 0.0)
-            ), 1.0, 0.0
-        ),
-        "blur-5x5" to FilteringInfo(
-            arrayOf(
-                doubleArrayOf(0.0, 0.0, 1.0, 0.0, 0.0),
-                doubleArrayOf(0.0, 1.0, 1.0, 1.0, 0.0),
-                doubleArrayOf(1.0, 1.0, 1.0, 1.0, 1.0),
-                doubleArrayOf(0.0, 1.0, 1.0, 1.0, 0.0),
-                doubleArrayOf(0.0, 0.0, 1.0, 0.0, 0.0)
-            ), 1.0 / 13.0, 0.0
-        ),
-        "gaussian-blur-3x3" to FilteringInfo(
-            arrayOf(
-                doubleArrayOf(1.0, 2.0, 1.0),
-                doubleArrayOf(2.0, 4.0, 2.0),
-                doubleArrayOf(1.0, 2.0, 1.0)
-            ), 1.0 / 16.0, 0.0
-        ),
-        "gaussian-blur-5x5" to FilteringInfo(
-            arrayOf(
-                doubleArrayOf(1.0, 4.0, 6.0, 4.0, 1.0),
-                doubleArrayOf(4.0, 16.0, 24.0, 16.0, 4.0),
-                doubleArrayOf(6.0, 24.0, 36.0, 24.0, 6.0),
-                doubleArrayOf(4.0, 16.0, 24.0, 16.0, 4.0),
-                doubleArrayOf(1.0, 4.0, 6.0, 4.0, 1.0)
-            ), 1.0 / 256.0, 0.0
-        ),
-        "motion-blur" to FilteringInfo(
-            arrayOf(
-                doubleArrayOf(1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
-                doubleArrayOf(0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
-                doubleArrayOf(0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
-                doubleArrayOf(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0),
-                doubleArrayOf(0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0),
-                doubleArrayOf(0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0),
-                doubleArrayOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0),
-                doubleArrayOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0),
-                doubleArrayOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0)
-            ), 1.0 / 9.0, 0.0
-        ),
-        "find-horizontal-edges" to FilteringInfo(
-            arrayOf(
-                doubleArrayOf(0.0, 0.0, -1.0, 0.0, 0.0),
-                doubleArrayOf(0.0, 0.0, -1.0, 0.0, 0.0),
-                doubleArrayOf(0.0, 0.0, 2.0, 0.0, 0.0),
-                doubleArrayOf(0.0, 0.0, 0.0, 0.0, 0.0),
-                doubleArrayOf(0.0, 0.0, 0.0, 0.0, 0.0)
-            ), 1.0, 0.0
-        ),
-        "find-vertical-edges" to FilteringInfo(
-            arrayOf(
-                doubleArrayOf(0.0, 0.0, -1.0, 0.0, 0.0),
-                doubleArrayOf(0.0, 0.0, -1.0, 0.0, 0.0),
-                doubleArrayOf(0.0, 0.0, 4.0, 0.0, 0.0),
-                doubleArrayOf(0.0, 0.0, -1.0, 0.0, 0.0),
-                doubleArrayOf(0.0, 0.0, -1.0, 0.0, 0.0)
-            ), 1.0, 0.0
-        ),
-        "find-inclined-edges" to FilteringInfo(
-            arrayOf(
-                doubleArrayOf(-1.0, 0.0, 0.0, 0.0, 0.0),
-                doubleArrayOf(0.0, -2.0, 0.0, 0.0, 0.0),
-                doubleArrayOf(0.0, 0.0, 6.0, 0.0, 0.0),
-                doubleArrayOf(0.0, 0.0, 0.0, -2.0, 0.0),
-                doubleArrayOf(0.0, 0.0, 0.0, 0.0, -1.0)
-            ), 1.0, 0.0
-        ),
-        "find-all-edges" to FilteringInfo(
-            arrayOf(
-                doubleArrayOf(-1.0, -1.0, -1.0),
-                doubleArrayOf(-1.0, 8.0, -1.0),
-                doubleArrayOf(-1.0, -1.0, -1.0)
-            ), 1.0, 0.0
-        ),
-        "first-sharpen" to FilteringInfo(
-            arrayOf(
-                doubleArrayOf(-1.0, -1.0, -1.0),
-                doubleArrayOf(-1.0, 9.0, -1.0),
-                doubleArrayOf(-1.0, -1.0, -1.0)
-            ), 1.0, 0.0
-        ),
-        "second-sharpen" to FilteringInfo(
-            arrayOf(
-                doubleArrayOf(-1.0, -1.0, -1.0, -1.0, -1.0),
-                doubleArrayOf(-1.0, 2.0, 2.0, 2.0, -1.0),
-                doubleArrayOf(-1.0, 2.0, 8.0, 2.0, -1.0),
-                doubleArrayOf(-1.0, 2.0, 2.0, 2.0, -1.0),
-                doubleArrayOf(-1.0, -1.0, -1.0, -1.0, -1.0)
-            ), 1.0 / 8.0, 0.0
-        ),
-        "third-sharpen" to FilteringInfo(
-            arrayOf(
-                doubleArrayOf(1.0, 1.0, 1.0),
-                doubleArrayOf(1.0, -7.0, 1.0),
-                doubleArrayOf(1.0, 1.0, 1.0)
-            ), 1.0, 0.0
-        ),
-        "emboss-3x3" to FilteringInfo(
-            arrayOf(
-                doubleArrayOf(-1.0, -1.0, 0.0),
-                doubleArrayOf(-1.0, 0.0, 1.0),
-                doubleArrayOf(0.0, 1.0, 1.0)
-            ), 1.0, 128.0
-        ),
-        "emboss-5x5" to FilteringInfo(
-            arrayOf(
-                doubleArrayOf(-1.0, -1.0, -1.0, -1.0, 0.0),
-                doubleArrayOf(-1.0, -1.0, -1.0, 0.0, 1.0),
-                doubleArrayOf(-1.0, -1.0, 0.0, 1.0, 1.0),
-                doubleArrayOf(-1.0, 0.0, 1.0, 1.0, 1.0),
-                doubleArrayOf(0.0, 1.0, 1.0, 1.0, 1.0)
-            ), 1.0, 128.0
-        ),
-        "mean" to FilteringInfo(
-            arrayOf(
-                doubleArrayOf(1.0, 1.0, 1.0),
-                doubleArrayOf(1.0, 1.0, 1.0),
-                doubleArrayOf(1.0, 1.0, 1.0)
-            ), 1.0 / 9.0, 0.0
-        ),
-    )
+    private val inputFiles: Array<out File?>? = File("src/test/resources/in/pics").listFiles()
 
-    private fun checkBMPEquality(bmp1: Mat, bmp2: Mat) {
+    fun checkBMPEquality(
+        bmp1: Mat,
+        bmp2: Mat,
+    ) {
         val w = bmp1.cols()
         val h = bmp1.rows()
         assertEquals(w, bmp2.cols())
@@ -168,8 +33,8 @@ class ConvolutionTests {
             for (implementation in ConvolutionImplementation.entries) {
                 for (file in inputFiles) {
                     val fileName = file?.getName()?.dropLast(4)
-                    val input = handler.readBMP("src/test/resources/in/$fileName.bmp")
-                    val filteringInfo = filters[filterName]
+                    val input = handler.readBMP("src/test/resources/in/pics/$fileName.bmp")
+                    val filteringInfo = solver.availableFilters[filterName]
                     if (filteringInfo != null) {
                         val output = solver.convolve(input, filteringInfo, implementation)
                         val reference = handler.readBMP("src/test/resources/ref_out/$fileName/$filterName.bmp")
@@ -182,7 +47,7 @@ class ConvolutionTests {
 
     @Test
     @DisplayName("Convolution with ID filter doesn't change image")
-    fun checkIDFilter()  {
+    fun checkIDFilter() {
         filterTest("id")
     }
 

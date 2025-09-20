@@ -2,6 +2,7 @@ plugins {
     kotlin("jvm") version "2.1.20"
     jacoco
     id("org.jlleitschuh.gradle.ktlint") version "13.0.0"
+    application
 }
 
 group = "org.example"
@@ -14,6 +15,14 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
     implementation("org.bytedeco:javacv-platform:1.5.12")
+}
+
+tasks.withType<JavaExec> {
+    standardInput = System.`in`
+}
+
+application {
+    mainClass.set("AppKt")
 }
 
 tasks.test {
