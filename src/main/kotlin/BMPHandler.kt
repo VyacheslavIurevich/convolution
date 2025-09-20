@@ -1,8 +1,6 @@
-package org.example
-
 import org.bytedeco.opencv.global.opencv_imgcodecs.imread
+import org.bytedeco.opencv.global.opencv_imgcodecs.imwrite
 import org.bytedeco.opencv.opencv_core.Mat
-import org.bytedeco.opencv.global.opencv_imgcodecs.*
 
 class BMPHandler {
     fun readBMP(input: String): Mat {
@@ -12,7 +10,10 @@ class BMPHandler {
         return image
     }
 
-    fun writeBMP(output: String, image: Mat) {
+    fun writeBMP(
+        output: String,
+        image: Mat,
+    ) {
         require(output.endsWith(".bmp")) { "Output file must be .bmp, got $output" }
         val result = imwrite(output, image)
         require(result) { "Write must be successful" }

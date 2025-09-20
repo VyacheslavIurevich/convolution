@@ -1,7 +1,7 @@
-package org.example
-
 class FilteringInfo(
-    val filter: Array<DoubleArray>, val factor: Double, val bias: Double
+    val filter: Array<DoubleArray>,
+    val factor: Double,
+    val bias: Double,
 ) {
     val rows = filter.size
     val cols = filter.first().size
