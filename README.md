@@ -37,7 +37,7 @@ You can observe filters' effects at `src/test/resources/ref_out`.
 ## Requirements <a name="requirements"></a>
 * [JDK 21+](https://adoptium.net/temurin/releases/)
 * [Kotlin 2.0.21](https://kotlinlang.org/)
-* [Gradle 8.12.1](https://gradle.org/)
+* [Gradle 8.10.2](https://gradle.org/)
 ## Technologies used <a name="technologies"></a>
 * [JavaCV](https://github.com/bytedeco/javacv)
 * [ktlint](https://github.com/pinterest/ktlint)
