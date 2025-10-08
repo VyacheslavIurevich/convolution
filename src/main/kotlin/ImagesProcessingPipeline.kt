@@ -9,7 +9,7 @@ class ImagesProcessingPipeline(
     private val handler: BMPHandler = BMPHandler(),
     maxQueueSize: Int = 10,
     private val readerThreadsNum: Int = 2,
-    private val workerThreadsNum: Int = Runtime.getRuntime().availableProcessors() - 2,
+    private val workerThreadsNum: Int = Runtime.getRuntime().availableProcessors() - 4,
     private val writerThreadsNum: Int = 2,
 ) {
     init {

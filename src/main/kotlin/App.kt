@@ -199,10 +199,6 @@ fun runBenchmark() {
 
     val pipeline =
         ImagesProcessingPipeline(
-            maxQueueSize = 10,
-            readerThreadsNum = 2,
-            workerThreadsNum = Runtime.getRuntime().availableProcessors() - 4,
-            writerThreadsNum = 2,
             solver = solver,
         )
 
