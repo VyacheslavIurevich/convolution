@@ -18,7 +18,7 @@ class BMPHandlerTests {
     @DisplayName("Non-BMP file read fails with exception")
     fun checkNonBMPRead() {
         assertThrows<IllegalArgumentException> {
-            handler.readBMP("src/test/resources/in/pics/")
+            handler.readBMP("src/test/resources/in/pics")
         }
     }
 
