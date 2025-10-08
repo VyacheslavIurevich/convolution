@@ -8,6 +8,7 @@ class ImageTask(
 ) {
     init {
         require(input.endsWith(".bmp")) { "Input file must be .bmp, got $input" }
+        require(output.endsWith(".bmp")) { "Output file must be .bmp, got $output" }
         require(File(input).let { it.exists() && it.isFile }) {
             "Input file must exist: $input"
         }
