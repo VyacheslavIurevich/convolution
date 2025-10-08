@@ -2,7 +2,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import java.io.File
 
-class ConvolutionTests {
+class ConvolutionSolverTests {
     private val solver = ConvolutionSolver()
     private val handler = BMPHandler()
     private val inputFiles: Array<out File?>? = File("src/test/resources/in/pics").listFiles()
