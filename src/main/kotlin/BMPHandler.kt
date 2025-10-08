@@ -6,7 +6,7 @@ class BMPHandler {
     fun readBMP(input: String): Mat {
         require(input.endsWith(".bmp")) { "Input file must be .bmp, got $input" }
         val image: Mat? = imread(input)
-        require(image != null) { "Image must be successfully read" }
+        require(image != null && image.cols() > 0 && image.rows() > 0) { "Image must be successfully read" }
         return image
     }
 
